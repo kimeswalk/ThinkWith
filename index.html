@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThinkWith — WriteInSight</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #f4f1ec;
+      --panel:   #fdfcf9;
+      --border:  #dedad3;
+      --text:    #2c2a27;
+      --muted:   #888580;
+      --accent:  #7a5c3a;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ──────────────────────────────────────────────────── */
+    header {
+      background: #1a100a;
+      color: #f4ede4;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .header-title h1 {
+      font-size: 1.25rem;
+      font-weight: normal;
+      letter-spacing: 0.12em;
+    }
+
+    .header-title span {
+      font-size: 0.7rem;
+      opacity: 0.55;
+      letter-spacing: 0.08em;
+      display: block;
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    .api-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .api-row label {
+      font-size: 0.72rem;
+      opacity: 0.6;
+      letter-spacing: 0.05em;
+    }
+
+    .api-row input {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      padding: 5px 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #f4ede4;
+      border-radius: 4px;
+      width: 240px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .api-row input:focus { border-color: rgba(255,255,255,0.4); }
+    .api-row input::placeholder { opacity: 0.35; }
+
+    /* ── Main layout ─────────────────────────────────────────────── */
+    .main {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* ── Writing panel ───────────────────────────────────────────── */
+    .writing-panel {
+      width: 52%;
+      padding: 24px;
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .field-card h2 {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      font-weight: normal;
+      margin-bottom: 8px;
+    }
+
+    .field-card textarea {
+      width: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      resize: vertical;
+      outline: none;
+      min-height: 72px;
+    }
+
+    .field-card textarea::placeholder {
+      color: #c0bdb8;
+      font-style: italic;
+    }
+
+    .field-card.paragraph-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .field-card.paragraph-card textarea {
+      flex: 1;
+      min-height: 0;
+      resize: none;
+    }
+
+    .bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .status {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .analyze-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 9px 22px;
+      border-radius: 5px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    .analyze-btn:hover { background: #6a4c2a; }
+    .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #feedback-box {
+      display: none;
+      background: #f5f0e8;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #3a3733;
+      font-style: italic;
+      flex-shrink: 0;
+    }
+
+    /* ── Darkroom panel ──────────────────────────────────────────── */
+    .darkroom-panel {
+      width: 48%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 16px 14px;
+      background: #0d0804;
+      overflow: hidden;
+    }
+
+    .state-label {
+      font-style: italic;
+      font-size: 0.98rem;
+      color: #c8a07a;
+      opacity: 0.8;
+      text-align: center;
+      transition: all 0.7s ease;
+      min-height: 1.4em;
+      letter-spacing: 0.02em;
+    }
+
+    .darkroom-wrap {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    #darkroom-svg {
+      width: 100%;
+      height: 100%;
+      max-height: 320px;
+    }
+
+    .dr-layer {
+      transition: opacity 0.95s ease;
+    }
+
+    /* ── Darkroom footer ─────────────────────────────────────────── */
+    .darkroom-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #2e1a0a;
+      border: 1px solid #4a2a10;
+      transition: background 0.5s ease, transform 0.3s ease;
+    }
+
+    .dot.active { background: #c07828; transform: scale(1.25); }
+    .dot.done   { background: #7a5028; border-color: #9a7040; }
+
+    .encounter-btn {
+      display: none;
+      border: 1px solid #7a5830;
+      background: transparent;
+      color: #c8a07a;
+      padding: 7px 20px;
+      border-radius: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .encounter-btn:hover { background: #7a5830; color: #f4ede4; }
+    .encounter-btn.show  { display: block; }
+
+    .encounter-card {
+      display: none;
+      background: rgba(25, 12, 4, 0.92);
+      border: 1px solid #4a2a10;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 0.8rem;
+      text-align: center;
+      line-height: 1.6;
+      max-width: 310px;
+      color: #c8b090;
+    }
+
+    .encounter-card.show { display: block; }
+
+    .enc-type-label {
+      font-size: 0.96rem;
+      font-weight: bold;
+      text-transform: capitalize;
+      color: #d4a060;
+      letter-spacing: 0.05em;
+      margin-bottom: 5px;
+    }
+
+    .enc-desc { color: #907060; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    <h1>ThinkWith</h1>
+    <span>Use one text to develop your understanding of another</span>
+  </div>
+  <div class="api-row">
+    <label for="api-key">API Key</label>
+    <input id="api-key" type="password" placeholder="sk-ant-…  fw_…  sk-…" autocomplete="off" />
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- ── Writing panel ──────────────────────────────────────────── -->
+  <div class="writing-panel">
+
+    <div class="field-card">
+      <h2>Thinking With</h2>
+      <textarea id="thinking-with" rows="3"
+        placeholder="A concept, argument, quote, or artifact you're using as a lens — the instrument you'll pick up and turn on the object…"></textarea>
+    </div>
+
+    <div class="field-card">
+      <h2>Being Thought Upon</h2>
+      <textarea id="object" rows="3"
+        placeholder="The thing you're trying to understand — a poem, event, image, argument, or other artifact…"></textarea>
+    </div>
+
+    <div class="field-card paragraph-card">
+      <h2>Your Paragraph</h2>
+      <textarea id="paragraph"
+        placeholder="Write a paragraph in which your thinking-with text develops your understanding of the object. You'll know it's working when you can say: if I took the thinking-with text away, my insight would disappear with it."></textarea>
+    </div>
+
+    <div class="bottom-row">
+      <span class="status" id="status"></span>
+      <button class="analyze-btn" id="analyze-btn">Analyze</button>
+    </div>
+
+    <div id="feedback-box"></div>
+
+  </div>
+
+  <!-- ── Darkroom panel ─────────────────────────────────────────── -->
+  <div class="darkroom-panel">
+
+    <div class="state-label" id="state-label">Begin writing to develop your thinking…</div>
+
+    <div class="darkroom-wrap">
+      <svg id="darkroom-svg" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="safelightGrad" cx="50%" cy="0%" r="72%" fx="50%" fy="0%">
+            <stop offset="0%"   stop-color="#903808" stop-opacity="0.8"/>
+            <stop offset="35%"  stop-color="#4a1c04" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#0d0804" stop-opacity="0"/>
+          </radialGradient>
+
+          <linearGradient id="fluidGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#3d1804" stop-opacity="0.92"/>
+            <stop offset="100%" stop-color="#1a0802" stop-opacity="0.98"/>
+          </linearGradient>
+
+          <linearGradient id="paperBlank" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#f2ece0"/>
+            <stop offset="100%" stop-color="#e8e0d0"/>
+          </linearGradient>
+
+          <linearGradient id="photoDeveloped" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#c8c0b0"/>
+            <stop offset="38%"  stop-color="#a8a098"/>
+            <stop offset="100%" stop-color="#888078"/>
+          </linearGradient>
+
+          <radialGradient id="discoverGlow" cx="83%" cy="82%" r="28%" fx="83%" fy="82%">
+            <stop offset="0%"   stop-color="#d49010" stop-opacity="0.95"/>
+            <stop offset="45%"  stop-color="#9a5808" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#9a5808" stop-opacity="0"/>
+          </radialGradient>
+
+          <radialGradient id="trayReflect" cx="25%" cy="50%" r="20%">
+            <stop offset="0%"   stop-color="#c89050" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#c89050" stop-opacity="0"/>
+          </radialGradient>
+
+          <filter id="ghostBlur" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="6"/>
+          </filter>
+
+          <filter id="glowFx" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+
+          <filter id="softBlur">
+            <feGaussianBlur stdDeviation="2.5"/>
+          </filter>
+        </defs>
+
+        <!-- ── Room ─────────────────────────────────────────────── -->
+        <rect width="800" height="420" fill="#0d0804"/>
+        <rect width="800" height="420" fill="url(#safelightGrad)"/>
+
+        <!-- Safelight fixture -->
+        <rect x="372" y="0" width="56" height="10" fill="#271005" rx="2"/>
+        <ellipse cx="400" cy="16" rx="24" ry="10" fill="#b04006" opacity="0.92"/>
+        <ellipse cx="400" cy="16" rx="14" ry="6"  fill="#e06818" opacity="0.75"/>
+
+        <!-- ── Clothesline ─────────────────────────────────────── -->
+        <line x1="55" y1="84" x2="745" y2="84" stroke="#3a2010" stroke-width="1.5" opacity="0.9"/>
+
+        <!-- Left clothespin -->
+        <rect x="172" y="78" width="8" height="13" fill="#5a3818" rx="1"/>
+        <rect x="174" y="90" width="4" height="5"  fill="#3a2010" rx="1"/>
+
+        <!-- ── Left photo — upright (states 0 & 1) ───────────── -->
+        <g id="photo-left-up" class="dr-layer" opacity="1">
+          <rect x="158" y="84" width="52" height="70" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5" rx="1"/>
+          <line x1="168" y1="100" x2="200" y2="100" stroke="#a09280" stroke-width="1.3"/>
+          <line x1="168" y1="107" x2="200" y2="107" stroke="#a09280" stroke-width="1.3"/>
+          <line x1="168" y1="114" x2="188" y2="114" stroke="#a09280" stroke-width="1.1" opacity="0.8"/>
+          <rect x="166" y="122" width="35" height="22" fill="#98887a" rx="1"/>
+          <line x1="168" y1="133" x2="198" y2="133" stroke="#b0a290" stroke-width="1" opacity="0.6"/>
+          <line x1="168" y1="140" x2="192" y2="140" stroke="#b0a290" stroke-width="1" opacity="0.5"/>
+        </g>
+
+        <!-- ── Left photo — leaning toward tray (states 2 & 3) ── -->
+        <g id="photo-left-lean" class="dr-layer" opacity="0">
+          <g transform="rotate(14, 184, 84)">
+            <rect x="158" y="84" width="52" height="70" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5" rx="1"/>
+            <line x1="168" y1="100" x2="200" y2="100" stroke="#a09280" stroke-width="1.3"/>
+            <line x1="168" y1="107" x2="200" y2="107" stroke="#a09280" stroke-width="1.3"/>
+            <line x1="168" y1="114" x2="188" y2="114" stroke="#a09280" stroke-width="1.1" opacity="0.8"/>
+            <rect x="166" y="122" width="35" height="22" fill="#98887a" rx="1"/>
+          </g>
+        </g>
+
+        <!-- Right clothespin -->
+        <rect x="620" y="78" width="8" height="13" fill="#5a3818" rx="1"/>
+        <rect x="622" y="90" width="4" height="5"  fill="#3a2010" rx="1"/>
+
+        <!-- ── Right photo — always upright ─────────────────── -->
+        <rect x="590" y="84" width="52" height="70" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5" rx="1"/>
+        <rect x="600" y="96" width="32" height="22" fill="#a09080" rx="1"/>
+        <ellipse cx="616" cy="107" rx="11" ry="9" fill="#8a7868"/>
+        <line x1="598" y1="126" x2="634" y2="126" stroke="#a09280" stroke-width="1.3"/>
+        <line x1="598" y1="133" x2="634" y2="133" stroke="#a09280" stroke-width="1.3"/>
+        <line x1="598" y1="140" x2="618" y2="140" stroke="#a09280" stroke-width="1.1" opacity="0.7"/>
+
+        <!-- ── Developer tray ─────────────────────────────────── -->
+        <rect x="76" y="232" width="648" height="172" fill="#1a0a04" rx="5"/>
+        <!-- Top rim highlight -->
+        <rect x="76" y="232" width="648" height="9" fill="#3a1a08" rx="3"/>
+        <!-- Side rim highlights -->
+        <rect x="76"  y="232" width="9" height="172" fill="#2a1206" rx="3"/>
+        <rect x="715" y="232" width="9" height="172" fill="#2a1206" rx="3"/>
+        <!-- Developer fluid -->
+        <rect x="87" y="242" width="626" height="154" fill="url(#fluidGrad)" rx="3"/>
+        <!-- Fluid surface sheen -->
+        <line x1="110" y1="252" x2="310" y2="252" stroke="rgba(180,90,20,0.13)" stroke-width="2"/>
+        <line x1="420" y1="256" x2="660" y2="256" stroke="rgba(180,90,20,0.09)" stroke-width="2"/>
+        <line x1="520" y1="248" x2="700" y2="248" stroke="rgba(180,90,20,0.11)" stroke-width="1.5"/>
+
+        <!-- ══════════ PAPER STATE LAYERS ══════════════════════ -->
+
+        <!-- State 0 — Blank paper ────────────────────────────── -->
+        <g id="g-s0" class="dr-layer" opacity="1">
+          <rect x="112" y="258" width="576" height="124" fill="url(#paperBlank)" rx="2"/>
+        </g>
+
+        <!-- State 1 — Ghost shapes emerging ─────────────────── -->
+        <g id="g-s1" class="dr-layer" opacity="0">
+          <rect x="112" y="258" width="576" height="124" fill="#ddd5c2" rx="2"/>
+          <rect x="165" y="274" width="210" height="88"  fill="#b8ae9c" rx="8" filter="url(#ghostBlur)" opacity="0.52"/>
+          <rect x="420" y="268" width="190" height="96"  fill="#aca498" rx="8" filter="url(#ghostBlur)" opacity="0.46"/>
+          <rect x="290" y="285" width="170" height="65"  fill="#c0b8a6" rx="6" filter="url(#ghostBlur)" opacity="0.38"/>
+        </g>
+
+        <!-- State 2 — Developed image ───────────────────────── -->
+        <g id="g-s2" class="dr-layer" opacity="0">
+          <rect x="112" y="258" width="576" height="124" fill="url(#photoDeveloped)" rx="2"/>
+          <!-- Sky (upper zone) -->
+          <rect x="112" y="258" width="576" height="52" fill="#c0b8a8" rx="2"/>
+          <!-- Ground (lower zone) -->
+          <rect x="112" y="310" width="576" height="72" fill="#8e8880" rx="2"/>
+          <!-- Central form / subject silhouette -->
+          <ellipse cx="400" cy="278" rx="36" ry="20" fill="#7a7268"/>
+          <rect x="383" y="278" width="34" height="54" fill="#726a60"/>
+          <!-- Left-side text-like detail lines -->
+          <line x1="134" y1="273" x2="348" y2="273" stroke="#a89e90" stroke-width="1.3" opacity="0.85"/>
+          <line x1="134" y1="281" x2="300" y2="281" stroke="#a89e90" stroke-width="1.3" opacity="0.75"/>
+          <line x1="134" y1="289" x2="320" y2="289" stroke="#a89e90" stroke-width="1.1" opacity="0.65"/>
+          <!-- Right-side detail lines -->
+          <line x1="455" y1="273" x2="668" y2="273" stroke="#a89e90" stroke-width="1.3" opacity="0.85"/>
+          <line x1="472" y1="281" x2="668" y2="281" stroke="#a89e90" stroke-width="1.2" opacity="0.75"/>
+          <!-- Foreground texture -->
+          <line x1="134" y1="320" x2="668" y2="320" stroke="#7e7870" stroke-width="1"   opacity="0.55"/>
+          <line x1="134" y1="332" x2="510" y2="332" stroke="#7e7870" stroke-width="0.9" opacity="0.42"/>
+          <line x1="390" y1="345" x2="668" y2="345" stroke="#7e7870" stroke-width="0.9" opacity="0.38"/>
+        </g>
+
+        <!-- State 3 — Discovery, unexpected detail ───────────── -->
+        <g id="g-s3" class="dr-layer" opacity="0">
+          <!-- Same developed base -->
+          <rect x="112" y="258" width="576" height="124" fill="url(#photoDeveloped)" rx="2"/>
+          <rect x="112" y="258" width="576" height="52" fill="#c0b8a8" rx="2"/>
+          <rect x="112" y="310" width="576" height="72" fill="#8e8880" rx="2"/>
+          <ellipse cx="400" cy="278" rx="36" ry="20" fill="#7a7268"/>
+          <rect x="383" y="278" width="34" height="54" fill="#726a60"/>
+          <line x1="134" y1="273" x2="348" y2="273" stroke="#a89e90" stroke-width="1.3" opacity="0.85"/>
+          <line x1="134" y1="281" x2="300" y2="281" stroke="#a89e90" stroke-width="1.3" opacity="0.75"/>
+          <line x1="134" y1="289" x2="320" y2="289" stroke="#a89e90" stroke-width="1.1" opacity="0.65"/>
+          <line x1="455" y1="273" x2="668" y2="273" stroke="#a89e90" stroke-width="1.3" opacity="0.85"/>
+          <line x1="472" y1="281" x2="668" y2="281" stroke="#a89e90" stroke-width="1.2" opacity="0.75"/>
+          <line x1="134" y1="320" x2="668" y2="320" stroke="#7e7870" stroke-width="1"   opacity="0.55"/>
+          <line x1="134" y1="332" x2="510" y2="332" stroke="#7e7870" stroke-width="0.9" opacity="0.42"/>
+          <line x1="390" y1="345" x2="668" y2="345" stroke="#7e7870" stroke-width="0.9" opacity="0.38"/>
+
+          <!-- The unexpected detail — amber glow in lower-right corner -->
+          <rect x="112" y="258" width="576" height="124" fill="url(#discoverGlow)" rx="2"/>
+          <ellipse cx="632" cy="358" rx="22" ry="17" fill="#c07018" opacity="0.88" filter="url(#glowFx)"/>
+          <ellipse cx="632" cy="358" rx="12" ry="9"  fill="#e09030" opacity="0.92"/>
+
+          <!-- Faint reflection of left photo in developer fluid -->
+          <rect x="112" y="258" width="576" height="124" fill="url(#trayReflect)" rx="2" filter="url(#softBlur)"/>
+        </g>
+
+        <!-- ── Hands ──────────────────────────────────────────── -->
+        <!-- Left arm/hand gripping tray edge -->
+        <rect x="40" y="265" width="44" height="120" fill="#b07040" rx="10" opacity="0.75"/>
+        <rect x="52" y="248" width="36" height="45"  fill="#b07040" rx="8"  opacity="0.8"/>
+        <!-- Fingers over tray rim -->
+        <rect x="54" y="232" width="10" height="28" fill="#9e6030" rx="5" opacity="0.85"/>
+        <rect x="67" y="229" width="10" height="30" fill="#9e6030" rx="5" opacity="0.85"/>
+        <rect x="80" y="230" width="10" height="29" fill="#9e6030" rx="5" opacity="0.85"/>
+
+        <!-- Right arm/hand gripping tray edge -->
+        <rect x="716" y="265" width="44" height="120" fill="#b07040" rx="10" opacity="0.75"/>
+        <rect x="712" y="248" width="36" height="45"  fill="#b07040" rx="8"  opacity="0.8"/>
+        <!-- Fingers over tray rim -->
+        <rect x="710" y="232" width="10" height="29" fill="#9e6030" rx="5" opacity="0.85"/>
+        <rect x="723" y="229" width="10" height="30" fill="#9e6030" rx="5" opacity="0.85"/>
+        <rect x="736" y="232" width="10" height="28" fill="#9e6030" rx="5" opacity="0.85"/>
+
+      </svg>
+    </div><!-- .darkroom-wrap -->
+
+    <div class="darkroom-footer">
+      <div class="dots">
+        <div class="dot" id="dot0"></div>
+        <div class="dot" id="dot1"></div>
+        <div class="dot" id="dot2"></div>
+        <div class="dot" id="dot3"></div>
+      </div>
+      <button class="encounter-btn" id="encounter-btn">
+        Encounter type
+      </button>
+      <div class="encounter-card" id="encounter-card">
+        <div class="enc-type-label" id="enc-type"></div>
+        <div class="enc-desc" id="enc-desc"></div>
+      </div>
+    </div>
+
+  </div><!-- .darkroom-panel -->
+
+</div><!-- .main -->
+
+<script>
+(function () {
+'use strict';
+
+// ── Config ───────────────────────────────────────────────────────
+const PROVIDERS = {
+    anthropic: {
+      url:   'https://api.anthropic.com/v1/messages',
+      model: 'claude-haiku-4-5-20251001',
+    },
+    fireworks: {
+      url:   'https://api.fireworks.ai/inference/v1/chat/completions',
+      model: 'accounts/fireworks/models/deepseek-v4-pro',
+    },
+    openai: {
+      url:   'https://api.openai.com/v1/chat/completions',
+      model: 'gpt-4o-mini',
+    },
+  };
+
+  function detectProvider(key) {
+    if (key.startsWith('fw_'))     return 'fireworks';
+    if (key.startsWith('sk-ant-')) return 'anthropic';
+    return 'openai';
+  }
+
+  const STATE_LABELS = [
+    'Gathering…',
+    'Reaching…',
+    'Seeing…',
+    'Discovering.'
+  ];
+
+  const ENCOUNTER_DESCS = {
+    illumination: "Your thinking-with text provides vocabulary or framework that names something latent in the object.",
+    complication: "Your thinking-with text creates productive friction — the object resists it, and that resistance is the insight.",
+    extension:    "Your thinking-with text opens the object into territory or implication it couldn’t reach alone.",
+    contrast:     "The gap between your thinking-with text and the object, held steadily, produces a third insight belonging to neither.",
+  };
+
+  const SYSTEM_PROMPT = `You are an evaluator for a writing tool called ThinkWith.
+Students are practicing a move called "thinking with" — using one text, concept, or artifact as an instrument to develop their understanding of another.
+
+They have provided three things:
+1. THINKING-WITH TEXT: A concept, argument, quote, or artifact they are using as a lens or instrument.
+2. OBJECT: The thing they are trying to understand — a poem, event, image, argument, or other artifact.
+3. PARAGRAPH: Their written attempt to think with the first thing in order to understand the second.
+
+Your job is to evaluate the PARAGRAPH only. Do not evaluate the quality of the texts the student has chosen. Do not evaluate grammar, style, or length.
+
+Evaluate according to these four states:
+
+STATE 0 — UNACTIVATED
+The thinking-with text and the object are both mentioned in the paragraph, but the thinking-with text has not been turned on the object. They sit side by side without contact. The student has gathered materials but has not begun.
+Assign State 0 if: the paragraph mentions both texts but draws no connection between them, or the connection is purely positional ("both deal with memory," "both were written in the 20th century").
+
+STATE 1 — REACHING
+The student has noticed a connection and named it, but has not explained what the connection reveals. The thinking-with text has been lifted but not yet pressed against the object. Surface resemblances are noted — shared themes, overlapping keywords, similar subjects — but the paragraph does not explain why the connection matters or what it allows the student to see.
+Assign State 1 if: the paragraph asserts a thematic or conceptual similarity without explaining its mechanism or significance. The thinking-with text is acknowledged as relevant but not deployed.
+
+STATE 2 — SEEING
+The thinking-with text is genuinely working on the object. The student has established a conceptual link with some explanation of why it holds — not just that the two are related, but how and what that relationship makes visible. However, the paragraph does not yet produce anything new: the insight reveals what was already visible in the object rather than something that required the encounter to exist.
+Assign State 2 if: the paragraph explains a real conceptual relationship with some mechanism behind it, but the final claim or observation could have been made about the object without the thinking-with text, or the thinking-with text drops away before the paragraph reaches its conclusion.
+
+STATE 3 — DISCOVERING
+The thinking-with text has transformed what can be seen in the object, and that transformation produces a claim or insight that requires both texts to exist. Remove the thinking-with text, and the insight collapses. The encounter has made something new — something that belongs to neither text alone but emerged from their contact.
+Assign State 3 if: the paragraph's central claim or insight depends on the thinking-with text in a way that is specific and irreplaceable — not just supported by it, but generated by it.
+
+Additionally, if State 3 is reached, identify which of the following best describes the encounter:
+- ILLUMINATION: The thinking-with text provides vocabulary or framework that names or clarifies something latent in the object.
+- COMPLICATION: The thinking-with text creates productive friction — the object resists or qualifies it, and that resistance is the insight.
+- EXTENSION: The thinking-with text opens the object into territory or implication it couldn't reach alone.
+- CONTRAST: The gap between the thinking-with text and the object, held steadily, produces a third insight belonging to neither.
+
+IMPORTANT DISTINCTIONS:
+The difference between State 1 and State 2 is mechanism: State 1 names a connection; State 2 explains how it works.
+The difference between State 2 and State 3 is generation: State 2 illuminates what was already there; State 3 produces something that wasn't.
+Fluent writing can reach State 2 without reaching State 3. Do not reward eloquence as if it were insight. A paragraph can be beautifully written and still be at State 1.
+A paragraph that gestures toward State 3 in its final sentence without having done the work to get there should be assigned State 2. The insight must be earned by the paragraph, not announced at its end.
+
+RESPOND IN THIS FORMAT ONLY. Do not add explanation or commentary outside this structure:
+
+STATE: [0, 1, 2, or 3]
+ENCOUNTER TYPE: [ILLUMINATION / COMPLICATION / EXTENSION / CONTRAST / N/A]
+FEEDBACK: [One sentence. Name what the paragraph is doing, then point toward the next move. Do not use the state numbers or state names in the feedback sentence. Address the student directly as "you."]`;
+
+  // ── State ────────────────────────────────────────────────────────
+  let currentState = -1;
+  let lastEncounter = null;
+  let debouncer = null;
+
+  // ── Elements ─────────────────────────────────────────────────────
+  const $status  = document.getElementById('status');
+  const $btn     = document.getElementById('analyze-btn');
+  const $label   = document.getElementById('state-label');
+  const $encBtn  = document.getElementById('encounter-btn');
+  const $encCard = document.getElementById('encounter-card');
+
+  const layers = {
+    s0:        document.getElementById('g-s0'),
+    s1:        document.getElementById('g-s1'),
+    s2:        document.getElementById('g-s2'),
+    s3:        document.getElementById('g-s3'),
+    photoUp:   document.getElementById('photo-left-up'),
+    photoLean: document.getElementById('photo-left-lean'),
+  };
+
+  const dots = [0,1,2,3].map(i => document.getElementById('dot' + i));
+
+  // ── Wire up events ────────────────────────────────────────────────
+  $btn.addEventListener('click', function () { analyze(); });
+  $encBtn.addEventListener('click', showEncounter);
+
+  document.getElementById('paragraph').addEventListener('input', function () {
+    clearTimeout(debouncer);
+    var txt = document.getElementById('paragraph').value.trim();
+    if (txt.length > 40) {
+      setStatus('Analyzing…');
+      debouncer = setTimeout(function () { analyze(); }, 2200);
+    }
+  });
+
+  // ── Main analysis ────────────────────────────────────────────────
+  async function analyze() {
+    console.log('ThinkWith: analyze() called');
+
+    const key  = document.getElementById('api-key').value.trim();
+    const tw   = document.getElementById('thinking-with').value.trim();
+    const obj  = document.getElementById('object').value.trim();
+    const para = document.getElementById('paragraph').value.trim();
+
+    if (!key)  { setStatus('Enter your API key in the header above.'); return; }
+    if (!para) { setStatus('Write your paragraph first.'); return; }
+
+    $btn.disabled = true;
+    setStatus('Analyzing…');
+
+    try {
+      const provider = detectProvider(key);
+      console.log('ThinkWith: provider detected =', provider);
+      const cfg     = PROVIDERS[provider];
+      const userMsg = buildUserMessage(tw, obj, para);
+
+      let content;
+      if (provider === 'anthropic') {
+        content = await callAnthropic(key, cfg, userMsg);
+      } else {
+        content = await callOpenAIFormat(key, cfg, userMsg);
+      }
+
+      console.log('ThinkWith: raw response =', content);
+
+      if (!content) {
+        setStatus('The model returned an empty response. Try again.');
+        return;
+      }
+
+      const result = parseResponse(content);
+      console.log('ThinkWith: parsed =', result);
+
+      setDarkroomState(result.state);
+      lastEncounter = result.encounter;
+      setStatus('');
+      setFeedback(result.feedback);
+
+    } catch (err) {
+      console.error('ThinkWith error:', err);
+      setStatus('Error: ' + (err.message || 'something went wrong — see console for details.'));
+    } finally {
+      $btn.disabled = false;
+    }
+  }
+
+  // ── Provider call functions ───────────────────────────────────────
+  async function callAnthropic(key, cfg, userMsg) {
+    const resp = await fetch(cfg.url, {
+      method: 'POST',
+      headers: {
+        'x-api-key':                                 key,
+        'anthropic-version':                         '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+        'content-type':                              'application/json',
+      },
+      body: JSON.stringify({
+        model: cfg.model, max_tokens: 400,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: userMsg }]
+      })
+    });
+    if (!resp.ok) { console.error(resp.status, await resp.text()); throw new Error('connection'); }
+    const data = await resp.json();
+    return (data.content?.[0]?.text ?? '').trim();
+  }
+
+  async function callOpenAIFormat(key, cfg, userMsg) {
+    const resp = await fetch(cfg.url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${key}`,
+        'Content-Type':  'application/json',
+      },
+      body: JSON.stringify({
+        model: cfg.model, max_tokens: 2000, temperature: 0.1,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: userMsg }
+        ]
+      })
+    });
+    if (!resp.ok) { console.error(resp.status, await resp.text()); throw new Error('connection'); }
+    const data = await resp.json();
+    const msg  = data.choices?.[0]?.message ?? {};
+    return (msg.content || msg.reasoning_content || '').trim();
+  }
+
+  // ── Build user message ────────────────────────────────────────────
+  function buildUserMessage(tw, obj, para) {
+    return [
+      'THINKING-WITH TEXT:',
+      tw || '(not provided — infer from paragraph if possible)',
+      '',
+      'OBJECT:',
+      obj || '(not provided — infer from paragraph if possible)',
+      '',
+      'PARAGRAPH:',
+      para
+    ].join('\n');
+  }
+
+  // ── Parse model response ──────────────────────────────────────────
+  function parseResponse(content) {
+    console.log('ThinkWith raw response:', content);
+
+    // Strip all markdown formatting and normalise line endings
+    const clean = content
+      .replace(/\r\n/g, '\n')
+      .replace(/\*+/g, '')       // remove bold/italic asterisks
+      .replace(/_+([^_]+)_+/g, '$1'); // remove underscore emphasis
+
+    const stateMatch     = clean.match(/STATE:\s*([0-3])/i);
+    const encounterMatch = clean.match(/ENCOUNTER(?:\s+TYPE)?:\s*(\w+)/i);
+
+    // Capture everything after FEEDBACK: up to a blank line or end of string
+    const feedbackMatch = clean.match(/FEEDBACK:\s*([\s\S]+?)(?:\n\s*\n|$)/i);
+    let feedback = '';
+    if (feedbackMatch) {
+      feedback = feedbackMatch[1]
+        .replace(/\n/g, ' ')
+        .replace(/\s*(STATE|ENCOUNTER(?:\s+TYPE)?):.*/i, '')
+        .trim();
+    }
+
+    console.log('ThinkWith parsed → state:', stateMatch?.[1], '| encounter:', encounterMatch?.[1], '| feedback:', feedback);
+
+    return {
+      state:     stateMatch     ? parseInt(stateMatch[1])         : 0,
+      encounter: encounterMatch ? encounterMatch[1].toLowerCase() : 'n/a',
+      feedback,
+    };
+  }
+
+  // ── Darkroom state machine ────────────────────────────────────────
+  function setDarkroomState(state) {
+    currentState = state;
+
+    $label.textContent = STATE_LABELS[state];
+
+    // Fade all state layers
+    Object.values(layers).forEach(el => { if (el) el.style.opacity = '0'; });
+
+    setTimeout(() => {
+      try {
+        layers.s0.style.opacity = state === 0 ? '1' : '0';
+        layers.s1.style.opacity = state === 1 ? '1' : '0';
+        layers.s2.style.opacity = state === 2 ? '1' : '0';
+        layers.s3.style.opacity = state === 3 ? '1' : '0';
+        layers.photoUp.style.opacity   = state <= 1 ? '1' : '0';
+        layers.photoLean.style.opacity = state >= 2 ? '1' : '0';
+        console.log('ThinkWith visualization set to state', state);
+      } catch (e) {
+        console.error('ThinkWith visualization error:', e);
+      }
+    }, 80);
+
+    // Dots
+    dots.forEach((d, i) => {
+      d.className = 'dot';
+      if (i <  state) d.classList.add('done');
+      if (i === state) d.classList.add('active');
+    });
+
+    // Encounter button
+    $encCard.classList.remove('show');
+    if (state === 3) {
+      setTimeout(() => $encBtn.classList.add('show'), 1200);
+    } else {
+      $encBtn.classList.remove('show');
+    }
+  }
+
+  // ── Show encounter type card ──────────────────────────────────────
+  function showEncounter() {
+    if (!lastEncounter) return;
+    const type = lastEncounter;
+    const desc = ENCOUNTER_DESCS[type] || '';
+
+    document.getElementById('enc-type').textContent = type;
+    document.getElementById('enc-desc').textContent = desc;
+    $encCard.classList.add('show');
+  }
+
+  // ── Utility ──────────────────────────────────────────────────────
+  function setStatus(msg) {
+    $status.textContent = msg;
+  }
+
+  function setFeedback(msg) {
+    const box = document.getElementById('feedback-box');
+    if (msg) {
+      box.textContent   = msg;
+      box.style.display = 'block';
+    } else {
+      box.style.display = 'none';
+    }
+  }
+
+}()); // end IIFE
+</script>
+
+</body>
+</html>
