@@ -357,79 +357,102 @@
             <stop offset="35%"  stop-color="#4a1c04" stop-opacity="0.45"/>
             <stop offset="100%" stop-color="#0d0804" stop-opacity="0"/>
           </radialGradient>
-
           <linearGradient id="fluidGrad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%"   stop-color="#3d1804" stop-opacity="0.92"/>
             <stop offset="100%" stop-color="#1a0802" stop-opacity="0.98"/>
           </linearGradient>
-
           <linearGradient id="paperBlank" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%"   stop-color="#f2ece0"/>
             <stop offset="100%" stop-color="#e8e0d0"/>
           </linearGradient>
-
           <linearGradient id="photoDeveloped" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%"   stop-color="#c8c0b0"/>
             <stop offset="38%"  stop-color="#a8a098"/>
             <stop offset="100%" stop-color="#888078"/>
           </linearGradient>
-
           <radialGradient id="discoverGlow" cx="83%" cy="82%" r="28%" fx="83%" fy="82%">
             <stop offset="0%"   stop-color="#d49010" stop-opacity="0.95"/>
             <stop offset="45%"  stop-color="#9a5808" stop-opacity="0.55"/>
             <stop offset="100%" stop-color="#9a5808" stop-opacity="0"/>
           </radialGradient>
-
           <radialGradient id="trayReflect" cx="25%" cy="50%" r="20%">
             <stop offset="0%"   stop-color="#c89050" stop-opacity="0.25"/>
             <stop offset="100%" stop-color="#c89050" stop-opacity="0"/>
           </radialGradient>
-
           <filter id="ghostBlur" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="6"/>
           </filter>
-
           <filter id="glowFx" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="5" result="b"/>
             <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
-
           <filter id="softBlur">
             <feGaussianBlur stdDeviation="2.5"/>
           </filter>
+          <!-- Skin tone gradients -->
+          <linearGradient id="armGradL" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#5a3018"/>
+            <stop offset="45%"  stop-color="#a86a38"/>
+            <stop offset="100%" stop-color="#7a4822"/>
+          </linearGradient>
+          <linearGradient id="armGradR" x1="1" y1="0" x2="0" y2="0">
+            <stop offset="0%"   stop-color="#5a3018"/>
+            <stop offset="45%"  stop-color="#a86a38"/>
+            <stop offset="100%" stop-color="#7a4822"/>
+          </linearGradient>
+          <linearGradient id="fingerGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#c08050"/>
+            <stop offset="55%"  stop-color="#9e6030"/>
+            <stop offset="100%" stop-color="#6e3c18"/>
+          </linearGradient>
+          <linearGradient id="palmGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#b87040"/>
+            <stop offset="100%" stop-color="#8a4e28"/>
+          </linearGradient>
         </defs>
 
-        <!-- ── Room ─────────────────────────────────────────────── -->
+        <!-- Room -->
         <rect width="800" height="420" fill="#0d0804"/>
         <rect width="800" height="420" fill="url(#safelightGrad)"/>
 
-        <!-- Safelight fixture -->
-        <rect x="372" y="0" width="56" height="10" fill="#271005" rx="2"/>
-        <ellipse cx="400" cy="16" rx="24" ry="10" fill="#b04006" opacity="0.92"/>
-        <ellipse cx="400" cy="16" rx="14" ry="6"  fill="#e06818" opacity="0.75"/>
+        <!-- Safelight — realistic hanging dome fixture -->
+        <rect x="386" y="0" width="28" height="5" fill="#1c0904" rx="1"/>
+        <line x1="400" y1="5" x2="400" y2="15" stroke="#100502" stroke-width="2"/>
+        <path d="M 377 15 C 377 9 388 5 400 5 C 412 5 423 9 423 15 L 420 24 C 415 28 408 30 400 30 C 392 30 385 28 380 24 Z" fill="#231008"/>
+        <path d="M 380 17 C 381 14 389 12 400 12 C 411 12 419 14 420 17 L 418 22 C 413 25 407 26 400 26 C 393 26 387 25 382 22 Z" fill="#160804"/>
+        <ellipse cx="400" cy="25" rx="16" ry="8" fill="#b03606" opacity="0.96"/>
+        <ellipse cx="400" cy="23" rx="8"  ry="4" fill="#e05e0e" opacity="0.88"/>
+        <ellipse cx="400" cy="1"  rx="52" ry="4" fill="#6a2406" opacity="0.3" filter="url(#softBlur)"/>
 
-        <!-- ── Clothesline ─────────────────────────────────────── -->
-        <line x1="55" y1="84" x2="745" y2="84" stroke="#3a2010" stroke-width="1.5" opacity="0.9"/>
+        <!-- Clothesline — slight sag -->
+        <path d="M 55 84 Q 400 91 745 84" fill="none" stroke="#3a2010" stroke-width="1.5" opacity="0.88"/>
 
         <!-- Left clothespin -->
-        <rect x="172" y="78" width="8" height="13" fill="#5a3818" rx="1"/>
-        <rect x="174" y="90" width="4" height="5"  fill="#3a2010" rx="1"/>
+        <g transform="translate(170,69)">
+          <path d="M 3 1 C 3 7 3 14 4 20 C 4 24 4 27 3 30 C 2 32 2 33 3 34 L 8 34 C 8 33 7 32 7 30 C 6 27 6 24 6 20 C 7 14 7 7 7 1 Z" fill="#2c1406"/>
+          <path d="M 7 1 C 7 7 8 14 8 20 C 8 24 9 27 9 30 C 10 32 10 33 9 34 L 14 34 C 14 33 14 32 13 30 C 12 27 12 24 12 20 C 12 14 12 7 12 1 Z" fill="#583416"/>
+          <path d="M 2 17 C 0 15 0 12 2 10 C 4 8 8 8 10 10 C 12 12 12 16 10 18 C 8 20 4 20 2 18" fill="none" stroke="#8a602a" stroke-width="1.2"/>
+          <rect x="2" y="29" width="12" height="5" fill="#1c0a02" rx="1" opacity="0.75"/>
+        </g>
 
-        <!-- ── Left photo — upright (states 0 & 1) ───────────── -->
+        <!-- Left photo — upright (states 0 & 1) -->
         <g id="photo-left-up" class="dr-layer" opacity="1">
-          <rect x="158" y="84" width="52" height="70" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5" rx="1"/>
+          <path d="M 158 84 L 210 84 L 211 153 C 200 155 177 154 157 153 Z" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5"/>
+          <path d="M 162 88 L 206 88 L 207 149 C 197 151 172 150 161 149 Z" fill="none" stroke="#c4b8a2" stroke-width="0.5" opacity="0.65"/>
           <line x1="168" y1="100" x2="200" y2="100" stroke="#a09280" stroke-width="1.3"/>
           <line x1="168" y1="107" x2="200" y2="107" stroke="#a09280" stroke-width="1.3"/>
           <line x1="168" y1="114" x2="188" y2="114" stroke="#a09280" stroke-width="1.1" opacity="0.8"/>
           <rect x="166" y="122" width="35" height="22" fill="#98887a" rx="1"/>
           <line x1="168" y1="133" x2="198" y2="133" stroke="#b0a290" stroke-width="1" opacity="0.6"/>
           <line x1="168" y1="140" x2="192" y2="140" stroke="#b0a290" stroke-width="1" opacity="0.5"/>
+          <rect x="158" y="84" width="52" height="5" fill="#060302" opacity="0.2"/>
         </g>
 
-        <!-- ── Left photo — leaning toward tray (states 2 & 3) ── -->
+        <!-- Left photo — leaning (states 2 & 3) -->
         <g id="photo-left-lean" class="dr-layer" opacity="0">
           <g transform="rotate(14, 184, 84)">
-            <rect x="158" y="84" width="52" height="70" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5" rx="1"/>
+            <path d="M 158 84 L 210 84 L 211 153 C 200 155 177 154 157 153 Z" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5"/>
+            <path d="M 162 88 L 206 88 L 207 149 C 197 151 172 150 161 149 Z" fill="none" stroke="#c4b8a2" stroke-width="0.5" opacity="0.65"/>
             <line x1="168" y1="100" x2="200" y2="100" stroke="#a09280" stroke-width="1.3"/>
             <line x1="168" y1="107" x2="200" y2="107" stroke="#a09280" stroke-width="1.3"/>
             <line x1="168" y1="114" x2="188" y2="114" stroke="#a09280" stroke-width="1.1" opacity="0.8"/>
@@ -438,39 +461,39 @@
         </g>
 
         <!-- Right clothespin -->
-        <rect x="620" y="78" width="8" height="13" fill="#5a3818" rx="1"/>
-        <rect x="622" y="90" width="4" height="5"  fill="#3a2010" rx="1"/>
+        <g transform="translate(618,69)">
+          <path d="M 3 1 C 3 7 3 14 4 20 C 4 24 4 27 3 30 C 2 32 2 33 3 34 L 8 34 C 8 33 7 32 7 30 C 6 27 6 24 6 20 C 7 14 7 7 7 1 Z" fill="#2c1406"/>
+          <path d="M 7 1 C 7 7 8 14 8 20 C 8 24 9 27 9 30 C 10 32 10 33 9 34 L 14 34 C 14 33 14 32 13 30 C 12 27 12 24 12 20 C 12 14 12 7 12 1 Z" fill="#583416"/>
+          <path d="M 2 17 C 0 15 0 12 2 10 C 4 8 8 8 10 10 C 12 12 12 16 10 18 C 8 20 4 20 2 18" fill="none" stroke="#8a602a" stroke-width="1.2"/>
+          <rect x="2" y="29" width="12" height="5" fill="#1c0a02" rx="1" opacity="0.75"/>
+        </g>
 
-        <!-- ── Right photo — always upright ─────────────────── -->
-        <rect x="590" y="84" width="52" height="70" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5" rx="1"/>
-        <rect x="600" y="96" width="32" height="22" fill="#a09080" rx="1"/>
+        <!-- Right photo — always upright -->
+        <path d="M 590 84 L 642 84 L 643 153 C 632 155 609 154 589 153 Z" fill="#d5cbb8" stroke="#7a5830" stroke-width="1.5"/>
+        <path d="M 594 88 L 638 88 L 639 149 C 629 151 614 150 593 149 Z" fill="none" stroke="#c4b8a2" stroke-width="0.5" opacity="0.65"/>
+        <rect x="600" y="96"  width="32" height="22" fill="#a09080" rx="1"/>
         <ellipse cx="616" cy="107" rx="11" ry="9" fill="#8a7868"/>
         <line x1="598" y1="126" x2="634" y2="126" stroke="#a09280" stroke-width="1.3"/>
         <line x1="598" y1="133" x2="634" y2="133" stroke="#a09280" stroke-width="1.3"/>
         <line x1="598" y1="140" x2="618" y2="140" stroke="#a09280" stroke-width="1.1" opacity="0.7"/>
+        <rect x="590" y="84" width="52" height="5" fill="#060302" opacity="0.2"/>
 
-        <!-- ── Developer tray ─────────────────────────────────── -->
+        <!-- Developer tray -->
         <rect x="76" y="232" width="648" height="172" fill="#1a0a04" rx="5"/>
-        <!-- Top rim highlight -->
-        <rect x="76" y="232" width="648" height="9" fill="#3a1a08" rx="3"/>
-        <!-- Side rim highlights -->
-        <rect x="76"  y="232" width="9" height="172" fill="#2a1206" rx="3"/>
-        <rect x="715" y="232" width="9" height="172" fill="#2a1206" rx="3"/>
-        <!-- Developer fluid -->
-        <rect x="87" y="242" width="626" height="154" fill="url(#fluidGrad)" rx="3"/>
-        <!-- Fluid surface sheen -->
+        <rect x="76" y="232" width="648" height="9"   fill="#3a1a08" rx="3"/>
+        <rect x="76"  y="232" width="9"  height="172" fill="#2a1206" rx="3"/>
+        <rect x="715" y="232" width="9"  height="172" fill="#2a1206" rx="3"/>
+        <rect x="87"  y="242" width="626" height="154" fill="url(#fluidGrad)" rx="3"/>
         <line x1="110" y1="252" x2="310" y2="252" stroke="rgba(180,90,20,0.13)" stroke-width="2"/>
         <line x1="420" y1="256" x2="660" y2="256" stroke="rgba(180,90,20,0.09)" stroke-width="2"/>
         <line x1="520" y1="248" x2="700" y2="248" stroke="rgba(180,90,20,0.11)" stroke-width="1.5"/>
 
-        <!-- ══════════ PAPER STATE LAYERS ══════════════════════ -->
-
-        <!-- State 0 — Blank paper ────────────────────────────── -->
+        <!-- State 0 — Blank paper -->
         <g id="g-s0" class="dr-layer" opacity="1">
           <rect x="112" y="258" width="576" height="124" fill="url(#paperBlank)" rx="2"/>
         </g>
 
-        <!-- State 1 — Ghost shapes emerging ─────────────────── -->
+        <!-- State 1 — Ghost shapes emerging -->
         <g id="g-s1" class="dr-layer" opacity="0">
           <rect x="112" y="258" width="576" height="124" fill="#ddd5c2" rx="2"/>
           <rect x="165" y="274" width="210" height="88"  fill="#b8ae9c" rx="8" filter="url(#ghostBlur)" opacity="0.52"/>
@@ -478,35 +501,28 @@
           <rect x="290" y="285" width="170" height="65"  fill="#c0b8a6" rx="6" filter="url(#ghostBlur)" opacity="0.38"/>
         </g>
 
-        <!-- State 2 — Developed image ───────────────────────── -->
+        <!-- State 2 — Developed image -->
         <g id="g-s2" class="dr-layer" opacity="0">
           <rect x="112" y="258" width="576" height="124" fill="url(#photoDeveloped)" rx="2"/>
-          <!-- Sky (upper zone) -->
-          <rect x="112" y="258" width="576" height="52" fill="#c0b8a8" rx="2"/>
-          <!-- Ground (lower zone) -->
-          <rect x="112" y="310" width="576" height="72" fill="#8e8880" rx="2"/>
-          <!-- Central form / subject silhouette -->
+          <rect x="112" y="258" width="576" height="52"  fill="#c0b8a8" rx="2"/>
+          <rect x="112" y="310" width="576" height="72"  fill="#8e8880" rx="2"/>
           <ellipse cx="400" cy="278" rx="36" ry="20" fill="#7a7268"/>
           <rect x="383" y="278" width="34" height="54" fill="#726a60"/>
-          <!-- Left-side text-like detail lines -->
           <line x1="134" y1="273" x2="348" y2="273" stroke="#a89e90" stroke-width="1.3" opacity="0.85"/>
           <line x1="134" y1="281" x2="300" y2="281" stroke="#a89e90" stroke-width="1.3" opacity="0.75"/>
           <line x1="134" y1="289" x2="320" y2="289" stroke="#a89e90" stroke-width="1.1" opacity="0.65"/>
-          <!-- Right-side detail lines -->
           <line x1="455" y1="273" x2="668" y2="273" stroke="#a89e90" stroke-width="1.3" opacity="0.85"/>
           <line x1="472" y1="281" x2="668" y2="281" stroke="#a89e90" stroke-width="1.2" opacity="0.75"/>
-          <!-- Foreground texture -->
           <line x1="134" y1="320" x2="668" y2="320" stroke="#7e7870" stroke-width="1"   opacity="0.55"/>
           <line x1="134" y1="332" x2="510" y2="332" stroke="#7e7870" stroke-width="0.9" opacity="0.42"/>
           <line x1="390" y1="345" x2="668" y2="345" stroke="#7e7870" stroke-width="0.9" opacity="0.38"/>
         </g>
 
-        <!-- State 3 — Discovery, unexpected detail ───────────── -->
+        <!-- State 3 — Discovery -->
         <g id="g-s3" class="dr-layer" opacity="0">
-          <!-- Same developed base -->
           <rect x="112" y="258" width="576" height="124" fill="url(#photoDeveloped)" rx="2"/>
-          <rect x="112" y="258" width="576" height="52" fill="#c0b8a8" rx="2"/>
-          <rect x="112" y="310" width="576" height="72" fill="#8e8880" rx="2"/>
+          <rect x="112" y="258" width="576" height="52"  fill="#c0b8a8" rx="2"/>
+          <rect x="112" y="310" width="576" height="72"  fill="#8e8880" rx="2"/>
           <ellipse cx="400" cy="278" rx="36" ry="20" fill="#7a7268"/>
           <rect x="383" y="278" width="34" height="54" fill="#726a60"/>
           <line x1="134" y1="273" x2="348" y2="273" stroke="#a89e90" stroke-width="1.3" opacity="0.85"/>
@@ -517,32 +533,88 @@
           <line x1="134" y1="320" x2="668" y2="320" stroke="#7e7870" stroke-width="1"   opacity="0.55"/>
           <line x1="134" y1="332" x2="510" y2="332" stroke="#7e7870" stroke-width="0.9" opacity="0.42"/>
           <line x1="390" y1="345" x2="668" y2="345" stroke="#7e7870" stroke-width="0.9" opacity="0.38"/>
-
-          <!-- The unexpected detail — amber glow in lower-right corner -->
           <rect x="112" y="258" width="576" height="124" fill="url(#discoverGlow)" rx="2"/>
           <ellipse cx="632" cy="358" rx="22" ry="17" fill="#c07018" opacity="0.88" filter="url(#glowFx)"/>
           <ellipse cx="632" cy="358" rx="12" ry="9"  fill="#e09030" opacity="0.92"/>
-
-          <!-- Faint reflection of left photo in developer fluid -->
           <rect x="112" y="258" width="576" height="124" fill="url(#trayReflect)" rx="2" filter="url(#softBlur)"/>
         </g>
 
-        <!-- ── Hands ──────────────────────────────────────────── -->
-        <!-- Left arm/hand gripping tray edge -->
-        <rect x="40" y="265" width="44" height="120" fill="#b07040" rx="10" opacity="0.75"/>
-        <rect x="52" y="248" width="36" height="45"  fill="#b07040" rx="8"  opacity="0.8"/>
-        <!-- Fingers over tray rim -->
-        <rect x="54" y="232" width="10" height="28" fill="#9e6030" rx="5" opacity="0.85"/>
-        <rect x="67" y="229" width="10" height="30" fill="#9e6030" rx="5" opacity="0.85"/>
-        <rect x="80" y="230" width="10" height="29" fill="#9e6030" rx="5" opacity="0.85"/>
+        <!-- LEFT ARM & HAND -->
+        <!-- Forearm — tapered organic shape from lower-left up to tray -->
+        <path d="M 0 420 C 6 396 14 370 26 344 C 36 322 50 304 62 290
+                 C 54 284 46 278 38 274
+                 C 26 288 12 306 2 328 C -8 354 -5 390 0 420 Z"
+              fill="url(#armGradL)" opacity="0.93"/>
+        <!-- Palm — wider, rounded, bridging wrist to fingers -->
+        <path d="M 60 292 C 66 282 76 274 88 274 C 98 274 104 281 102 292
+                 C 100 302 90 310 78 312 C 66 314 56 307 54 297 C 52 288 56 296 60 292 Z"
+              fill="url(#palmGrad)" opacity="0.92"/>
+        <!-- Palm highlight (top-lit) -->
+        <path d="M 64 284 C 70 277 80 273 90 276 C 96 278 99 284 96 291 L 88 288
+                 C 82 284 74 280 66 282 Z"
+              fill="#c88050" opacity="0.38"/>
+        <!-- Index finger -->
+        <path d="M 63 282 C 62 268 63 252 67 241 C 69 234 76 232 80 238
+                 C 84 244 83 260 80 274 C 78 283 71 287 67 285 Z"
+              fill="url(#fingerGrad)"/>
+        <path d="M 65 265 C 68 262 75 262 77 265" fill="none" stroke="#6e3810" stroke-width="0.9" opacity="0.55"/>
+        <!-- Middle finger -->
+        <path d="M 76 279 C 76 263 77 244 82 232 C 85 224 93 223 96 230
+                 C 100 238 98 256 95 271 C 93 281 86 286 81 283 Z"
+              fill="url(#fingerGrad)"/>
+        <path d="M 79 258 C 82 255 90 255 93 258" fill="none" stroke="#6e3810" stroke-width="0.9" opacity="0.55"/>
+        <!-- Ring finger -->
+        <path d="M 88 279 C 89 264 90 247 94 236 C 97 228 104 228 107 235
+                 C 110 242 109 259 106 272 C 104 281 97 285 93 283 Z"
+              fill="url(#fingerGrad)"/>
+        <path d="M 91 261 C 94 258 102 258 104 261" fill="none" stroke="#6e3810" stroke-width="0.8" opacity="0.5"/>
+        <!-- Pinky -->
+        <path d="M 100 281 C 101 269 103 256 106 247 C 108 240 114 240 117 246
+                 C 120 252 118 265 115 276 C 113 283 107 286 103 284 Z"
+              fill="url(#fingerGrad)" opacity="0.88"/>
+        <!-- Thumb (tucked, side view) -->
+        <path d="M 52 299 C 47 290 47 277 51 269 C 54 262 61 262 63 269
+                 C 65 276 64 289 60 298 Z"
+              fill="#a06232" opacity="0.84"/>
+        <!-- Shadow where hand meets tray rim -->
+        <rect x="52" y="229" width="72" height="12" fill="#060302" opacity="0.42" rx="2"/>
 
-        <!-- Right arm/hand gripping tray edge -->
-        <rect x="716" y="265" width="44" height="120" fill="#b07040" rx="10" opacity="0.75"/>
-        <rect x="712" y="248" width="36" height="45"  fill="#b07040" rx="8"  opacity="0.8"/>
-        <!-- Fingers over tray rim -->
-        <rect x="710" y="232" width="10" height="29" fill="#9e6030" rx="5" opacity="0.85"/>
-        <rect x="723" y="229" width="10" height="30" fill="#9e6030" rx="5" opacity="0.85"/>
-        <rect x="736" y="232" width="10" height="28" fill="#9e6030" rx="5" opacity="0.85"/>
+        <!-- RIGHT ARM & HAND (mirror) -->
+        <path d="M 800 420 C 794 396 786 370 774 344 C 764 322 750 304 738 290
+                 C 746 284 754 278 762 274
+                 C 774 288 788 306 798 328 C 808 354 805 390 800 420 Z"
+              fill="url(#armGradR)" opacity="0.93"/>
+        <path d="M 740 292 C 734 282 724 274 712 274 C 702 274 696 281 698 292
+                 C 700 302 710 310 722 312 C 734 314 744 307 746 297 C 748 288 744 296 740 292 Z"
+              fill="url(#palmGrad)" opacity="0.92"/>
+        <path d="M 736 284 C 730 277 720 273 710 276 C 704 278 701 284 704 291 L 712 288
+                 C 718 284 726 280 734 282 Z"
+              fill="#c88050" opacity="0.38"/>
+        <!-- Index -->
+        <path d="M 737 282 C 738 268 737 252 733 241 C 731 234 724 232 720 238
+                 C 716 244 717 260 720 274 C 722 283 729 287 733 285 Z"
+              fill="url(#fingerGrad)"/>
+        <path d="M 735 265 C 732 262 725 262 723 265" fill="none" stroke="#6e3810" stroke-width="0.9" opacity="0.55"/>
+        <!-- Middle -->
+        <path d="M 724 279 C 724 263 723 244 718 232 C 715 224 707 223 704 230
+                 C 700 238 702 256 705 271 C 707 281 714 286 719 283 Z"
+              fill="url(#fingerGrad)"/>
+        <path d="M 721 258 C 718 255 710 255 707 258" fill="none" stroke="#6e3810" stroke-width="0.9" opacity="0.55"/>
+        <!-- Ring -->
+        <path d="M 712 279 C 711 264 710 247 706 236 C 703 228 696 228 693 235
+                 C 690 242 691 259 694 272 C 696 281 703 285 707 283 Z"
+              fill="url(#fingerGrad)"/>
+        <path d="M 709 261 C 706 258 698 258 696 261" fill="none" stroke="#6e3810" stroke-width="0.8" opacity="0.5"/>
+        <!-- Pinky -->
+        <path d="M 700 281 C 699 269 697 256 694 247 C 692 240 686 240 683 246
+                 C 680 252 682 265 685 276 C 687 283 693 286 697 284 Z"
+              fill="url(#fingerGrad)" opacity="0.88"/>
+        <!-- Thumb -->
+        <path d="M 748 299 C 753 290 753 277 749 269 C 746 262 739 262 737 269
+                 C 735 276 736 289 740 298 Z"
+              fill="#a06232" opacity="0.84"/>
+        <!-- Shadow on tray rim -->
+        <rect x="676" y="229" width="72" height="12" fill="#060302" opacity="0.42" rx="2"/>
 
       </svg>
     </div><!-- .darkroom-wrap -->
