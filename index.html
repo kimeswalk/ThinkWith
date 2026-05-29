@@ -221,8 +221,7 @@
 
     #darkroom-svg {
       width: 100%;
-      height: 100%;
-      max-height: 320px;
+      height: auto;
     }
 
     .dr-layer {
@@ -350,7 +349,7 @@
     <div class="state-label" id="state-label">Begin writing to develop your thinking…</div>
 
     <div class="darkroom-wrap">
-      <svg id="darkroom-svg" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+      <svg id="darkroom-svg" viewBox="0 0 800 580" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="safelightGrad" cx="50%" cy="0%" r="72%" fx="50%" fy="0%">
             <stop offset="0%"   stop-color="#903808" stop-opacity="0.8"/>
@@ -597,6 +596,68 @@
           <rect x="112" y="258" width="576" height="124" fill="url(#trayReflect)" rx="2" filter="url(#softBlur)"/>
         </g>
 
+
+        <!-- Workbench counter below tray -->
+        <!-- Counter surface top lip -->
+        <rect x="0" y="408" width="800" height="12" fill="#2c1408"/>
+        <rect x="0" y="408" width="800" height="3"  fill="#4a2010" opacity="0.7"/>
+        <!-- Counter front face -->
+        <rect x="0" y="420" width="800" height="160" fill="#120804"/>
+        <!-- Subtle ambient glow from safelight reaching counter -->
+        <rect x="0" y="420" width="800" height="60" fill="#300e04" opacity="0.18"/>
+
+        <!-- Left cabinet section -->
+        <!-- Cabinet frame -->
+        <rect x="28" y="432" width="330" height="130" fill="#1a0c06" stroke="#2e1608" stroke-width="1.5" rx="2"/>
+        <!-- Left drawer -->
+        <rect x="34" y="438" width="150" height="55" fill="#1e0e07" stroke="#361a0a" stroke-width="1" rx="1"/>
+        <rect x="36" y="440" width="146" height="51" fill="#160a04" stroke="#2a1206" stroke-width="0.5" rx="1" opacity="0.6"/>
+        <!-- Left drawer pull -->
+        <rect x="96" y="461" width="28" height="6" fill="#2e1408" rx="3"/>
+        <rect x="97" y="462" width="26" height="4" fill="#3e1c0a" rx="2" opacity="0.7"/>
+        <!-- Right drawer -->
+        <rect x="200" y="438" width="150" height="55" fill="#1e0e07" stroke="#361a0a" stroke-width="1" rx="1"/>
+        <rect x="202" y="440" width="146" height="51" fill="#160a04" stroke="#2a1206" stroke-width="0.5" rx="1" opacity="0.6"/>
+        <!-- Right drawer pull -->
+        <rect x="262" y="461" width="28" height="6" fill="#2e1408" rx="3"/>
+        <rect x="263" y="462" width="26" height="4" fill="#3e1c0a" rx="2" opacity="0.7"/>
+        <!-- Cabinet bottom rail -->
+        <rect x="28" y="500" width="330" height="14" fill="#1e0e06" stroke="#2a1208" stroke-width="1"/>
+        <!-- Cabinet feet -->
+        <rect x="40"  y="514" width="16" height="18" fill="#1a0a04" rx="2"/>
+        <rect x="324" y="514" width="16" height="18" fill="#1a0a04" rx="2"/>
+
+        <!-- Center gap — floor drain / open space -->
+        <rect x="358" y="432" width="84" height="128" fill="#0d0702"/>
+        <!-- Drain grate suggestion -->
+        <line x1="368" y1="480" x2="432" y2="480" stroke="#1a0c04" stroke-width="1.5" opacity="0.6"/>
+        <line x1="368" y1="490" x2="432" y2="490" stroke="#1a0c04" stroke-width="1.5" opacity="0.6"/>
+        <line x1="368" y1="500" x2="432" y2="500" stroke="#1a0c04" stroke-width="1.5" opacity="0.6"/>
+        <line x1="395" y1="470" x2="395" y2="512" stroke="#1a0c04" stroke-width="1.5" opacity="0.6"/>
+        <line x1="405" y1="470" x2="405" y2="512" stroke="#1a0c04" stroke-width="1.5" opacity="0.6"/>
+
+        <!-- Right cabinet section -->
+        <rect x="442" y="432" width="330" height="130" fill="#1a0c06" stroke="#2e1608" stroke-width="1.5" rx="2"/>
+        <!-- Left drawer -->
+        <rect x="448" y="438" width="150" height="55" fill="#1e0e07" stroke="#361a0a" stroke-width="1" rx="1"/>
+        <rect x="450" y="440" width="146" height="51" fill="#160a04" stroke="#2a1206" stroke-width="0.5" rx="1" opacity="0.6"/>
+        <rect x="510" y="461" width="28" height="6" fill="#2e1408" rx="3"/>
+        <rect x="511" y="462" width="26" height="4" fill="#3e1c0a" rx="2" opacity="0.7"/>
+        <!-- Right drawer -->
+        <rect x="614" y="438" width="150" height="55" fill="#1e0e07" stroke="#361a0a" stroke-width="1" rx="1"/>
+        <rect x="616" y="440" width="146" height="51" fill="#160a04" stroke="#2a1206" stroke-width="0.5" rx="1" opacity="0.6"/>
+        <rect x="676" y="461" width="28" height="6" fill="#2e1408" rx="3"/>
+        <rect x="677" y="462" width="26" height="4" fill="#3e1c0a" rx="2" opacity="0.7"/>
+        <!-- Cabinet bottom rail -->
+        <rect x="442" y="500" width="330" height="14" fill="#1e0e06" stroke="#2a1208" stroke-width="1"/>
+        <!-- Cabinet feet -->
+        <rect x="454" y="514" width="16" height="18" fill="#1a0a04" rx="2"/>
+        <rect x="738" y="514" width="16" height="18" fill="#1a0a04" rx="2"/>
+
+        <!-- Floor -->
+        <rect x="0" y="532" width="800" height="48" fill="#0c0602"/>
+        <!-- Floor/baseboard line -->
+        <rect x="0" y="532" width="800" height="3" fill="#1e0e06" opacity="0.5"/>
 
       </svg>
     </div><!-- .darkroom-wrap -->
